@@ -6,7 +6,7 @@ OpenAI Cookbook 分享使用 [OpenAI API] 完成常见任务的示例代码。
 
 大多数代码示例都是用 Python 编写的，但这些概念也可以应用在任何语言中。
 
-## 最近添加的 🆕 ✨
+## 最新添加 🆕 ✨
 
 - [如何为 ChatGPT 模型格式化输入](examples/How_to_format_inputs_to_ChatGPT_models.ipynb)[2023年3月1日]
 - [使用向量数据库和Redis进行嵌入搜索](https://github.com/openai/openai-cookbook/tree/main/examples/vector_databases/redis)[2023年2月15日]
