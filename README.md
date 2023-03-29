@@ -72,3 +72,6 @@ OpenAI Cookbook 分享使用 [OpenAI API] 完成常见任务的示例代码。
 ## 参与贡献
 
 如果您想要查看示例或指南，请随时在[issues page](https://github.com/bytechina/openai-cookbook-zh/issues)上提出建议。
+
+## 补充说明
+OpenAI官方材料中文版翻译及人工智能重要文献编译，可关注微信公众号“量子论”了解最新进展。
