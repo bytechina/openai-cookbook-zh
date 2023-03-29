@@ -1,4 +1,4 @@
-# OpenAI Cookbook
+# OpenAI API官方指南（中文版）
 
 OpenAI Cookbook 分享使用 [OpenAI API] 完成常见任务的示例代码。
 
