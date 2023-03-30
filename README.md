@@ -24,7 +24,7 @@ OpenAI Cookbook 分享使用 [OpenAI API] 完成常见任务的示例代码。
   - [如何进行流式交互](examples/How_to_stream_completions.ipynb)
 - ChatGPT
   - [如何对 ChatGPT 模型格式化输入](examples/How_to_format_inputs_to_ChatGPT_models.ipynb)
-- GPT-3
+- GPT-3（已翻译为中文）
   - [指南：如何使用大语言模型](how_to_work_with_large_language_models.md)
   - [指南：提高可靠性的技术](techniques_to_improve_reliability.md)
   - [如何使用多步提示编写单元测试](examples/Unit_test_writing_using_a_multi-step_prompt.ipynb)
