@@ -106,34 +106,38 @@ GPT-3驱动了[各种软件产品][GPT3 Apps Blog Post]，包括生产应用、�
 泰德·张
 ```
 
-## 代码能力（修改中）
+## 代码能力
 
 大型语言模型不仅在文本方面表现出色 - 它们也可以在代码方面表现出色。 OpenAI 的专用代码模型称为[Codex]。
 
-Codex 推动了[超过 70 种产品][Codex 应用程序博客文章]，包括：
+Codex 为[超过 70 种产品][Codex应用程序博客文章]提供了支撑，包括：
 
-* [GitHub Copilot]（在 VS Code 和其他 IDE 中自动完成代码）
-* [Pygma]（将 Figma 设计转换为代码）
-* [Replit]（具有“解释代码”按钮和其他功能）
-* [Warp]（具有人工智能命令搜索的智能终端）
-* [Machinet]（编写 Java 单元测试模板）
+* [GitHub Copilot](https://copilot.github.com/)（在 VS Code 和其他 IDE 中自动完成代码）
+* [Pygma](https://pygma.app/)（将 Figma 设计转换为代码）
+* [Replit](https://replit.com/)（具有“解释代码”按钮和其他功能）
+* [Warp](https://www.warp.dev/)（具有人工智能命令搜索的智能终端）
+* [Machinet](https://machinet.net/)（编写 Java 单元测试模板）
 
-请注意，与遵循说明的文本模型（例如 `text-davinci-002`）不同，Codex 没有受过训练以遵循说明。因此，设计良好的提示需要更多的关注。
+请注意，与遵循说明的文本模型（例如 `text-davinci-002`）不同，Codex 没有受过训练以遵循说明。因此，需要多关注设计良好的提示。
 
 ### 更多提示建议
 
-有关更多提示示例，请访问[OpenAI 示例][OpenAI 示例]。
+有关更多提示示例，请访问[OpenAI 示例][OpenAI示例]。
 
-总的来说，输入提示是改进模型输出的最佳杠杆。您可以尝试一些小技巧：* **提供更明确的指示。** 例如，如果你想要输出一个逗号分隔的列表，就要求它返回一个逗号分隔的列表。如果你想让它在不知道答案时说“我不知道”，就告诉它“如果你不知道答案，请说‘我不知道’”。
-* **提供更好的示例。** 如果你在提示中展示示例，请确保你的示例多样化且高质量。
+总体来说，输入提示是改进模型输出的最佳方式。您可以尝试一些小技巧：
+
+* **提供更明确的指示。** 例如，如果你想要输出一个逗号分隔的列表，则要求它返回一个逗号分隔的列表。如果你想让它在不知道答案时说“我不知道”，则告诉它“如果你不知道答案，请说‘我不知道’”。
+* **提供更好的示例。** 如果你打算在提示中提供示例，请确保你的示例多样化且高质量。
 * **要求模型像专家一样回答。** 明确要求模型产生高质量的输出或像专家写的输出，可以促使模型给出更高质量的答案，因为它认为专家会写出这样的答案。例如，“以下答案是正确的、高质量的，是由专家编写的。”
-* **促使模型写出解释其推理步骤的一系列步骤。** 例如，在你的回答前加上类似“[让我们逐步思考](https://arxiv.org/pdf/2205.11916v1.pdf)”的东西。在给出最终答案之前，要求模型解释它的推理过程可以增加最终答案的一致性和正确性的可能性。
+* **引导模型写出其推理过程的一系列步骤。** 例如，在你的回答前加上类似“[让我们逐步思考](https://arxiv.org/pdf/2205.11916v1.pdf)”的东西。在给出最终答案之前，要求模型解释它的推理过程，这样可以增加最终答案的一致性和正确性。
 
 [微调文档]: https://beta.openai.com/docs/guides/fine-tuning
 [Codex Apps博客文章]: https://openai.com/blog/codex-apps/
 [大语言模型博客文章]: https://openai.com/blog/better-language-models/
 [GPT3 Apps Blog Post]: https://openai.com/blog/gpt-3-apps/
-[GitHub Copilot]: https://copilot.github.com/
+[Codex应用程序博客文章]: https://openai.com/blog/codex-apps/
 [Codex]: https://openai.com/blog/openai-codex/
-[GPT3 Apps博客文章]: https://openai.com/blog/gpt-3-apps/
-[OpenAI示例]: https://beta.openai.com/examples。
+[OpenAI示例]: https://beta.openai.com/examples
+
+### 补充说明
+OpenAI官方材料中文版翻译及人工智能重要文献编译，可关注微信公众号“量子论”了解最新进展。
