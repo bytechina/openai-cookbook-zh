@@ -2,152 +2,188 @@
 
 当 GPT-3 在任务中失败时，你该怎么办？
 
-- 寻找更好的提示，以产生更可靠的答案？
+- 寻找更好的提示，以便输出更可靠的答案？
 - 投入数千个示例来微调自定义模型？
 - 假设模型无法完成任务，然后继续？
 
-没有简单的答案 - 这取决于情况。然而，如果你的任务涉及逻辑推理或复杂性，请考虑尝试本文中的技术来构建更可靠且高效的提示。
+没有简单的答案 - 这取决于具体情况。然而，如果你的任务涉及逻辑推理或复杂性，请考虑尝试本文中的技术来构建更可靠且高效的提示。
 
 ## GPT-3 无法完成复杂任务的原因
 
-如果你被要求计算 13 乘以 17，答案会立即在你的脑海中出现吗？对于我们大多数人来说，可能不会。然而，这并不意味着人类无法完成两位数乘法。通过几秒钟的思考和用笔纸计算，算出 13 x 17 = 130 + 70 + 21 = 221 并不困难。
+如果你被要求计算 13 乘以 17，答案会立即在你的脑海中出现吗？对于我们大多数人来说，可能不会。然而，这并不意味着人类无法完成两位数乘法。通过几秒钟的思考以及用笔纸计算，得出 13 x 17 = 130 + 70 + 21 = 221 并不困难。
 
-同样地，如果你给 GPT-3 一个在计算其下一个标记所需时间内无法完成的任务，它可能会产生错误的猜测。然而，类似于人类，这并不一定意味着模型无法完成任务。在一些时间和空间上推理事情后，模型仍然可能能够可靠地回答问题。
+同样地，如果你给 GPT-3 一个在计算其所需时间内无法完成的任务，它可能会产生错误的预测。然而，类似于人类，这并不一定意味着模型无法完成任务。在一些时间和空间上进行推理后，模型仍然可以可靠地回答问题。
 
-举个例子，如果你让 `text-davinci-002` 回答以下有关抛球的数学问题，它会回答错误：
+举个例子，如果你让 `text-davinci-002` 回答以下关于抛球的数学问题，它会回答错误：
 
-```text-davinci-002
-Q: A juggler has 16 balls. Half of the balls are golf balls and half of the golf balls are blue. How many blue golf balls are there?
+```
+Q: 一个杂技演员有16个球，其中一半是高尔夫球，而且有一半高尔夫球是蓝色的，请问有多少个蓝色高尔夫球？
 A:
 ```
 
-```text-davinci-002
-There are 8 blue golf balls.
+```
+有8个蓝色高尔夫球。
 ```
 
-这是否意味着 GPT-3 无法解决简单的数学问题？不是的；事实上，通过提示模型“让我们逐步思考”，模型可可靠地解决问题：
+这是否意味着 GPT-3 无法解决简单的数学问题？不是的；事实上，通过提醒模型“让我们逐步思考”，模型能够可靠地解决问题：
 
-```text-davinci-002
-Q: A juggler has 16 balls. Half of the balls are golf balls and half of the golf balls are blue. How many blue golf balls are there?
-A: 让我们想一想每一步。
+```
+Q: 一个杂技演员有16个球，其中一半是高尔夫球，而且有一半高尔夫球是蓝色的，请问有多少个蓝色高尔夫球？
+A: 让我们一步一步的思考。
 ```
 
-```text-davinci-002
-There are 16 balls in total. 
-Half of the balls are golf balls. 
-That means that there are 8 golf balls. 
-Half of the golf balls are blue.
 ```
-格式：只返回翻译内容，不包括原文。这意味着有4个蓝色高尔夫球。
+总共有16个球。
+一半的球是高尔夫球。
+这意味着有8个高尔夫球。
+一半的高尔夫球是蓝色的。
+这意味着有4个蓝色高尔夫球。
+```
 
-当然，仅仅从一个例子很难知道这种“我们来逐步思考”的技巧是否真的适用于所有问题，还是只是在这个特定的问题上有了好运气。但这确实有效。在一项单词数学问题的基准测试中，“我们来逐步思考”的技巧将GPT-3的解决率大大提高了，从无用的18%提高到了相当不错的79%！
+当然，仅仅从一个例子很难知道这种“让我们逐步思考”的技巧是否真的适用于所有问题，还是仅在这个特定的问题上碰到好运气。但这确实有效。在一项单词数学问题的基准测试中，“让我们逐步思考”的技巧将GPT-3的解决率大大提高，从无用的18%提升到了相当不错的79%！
 
-## 模型的能力取决于上下文
+## 模型能力取决于上下文
 
-在学习如何使用GPT-3时，一个常见的概念错误是认为它的能力在所有情境下都是固定的。例如，如果GPT-3在一个简单的逻辑问题上答错了，那么它一定无法处理简单的逻辑。
+在学习如何使用GPT-3时，一个常见概念错误是认为它的能力在所有情境下都是固定的。例如，如果GPT-3在一个简单的逻辑问题上答错了，那么它一定无法处理简单的逻辑。
 
-但是正如“我们来逐步思考”的例子所说明的那样，GPT-3的表现不佳有时可以通过更好的提示来加以纠正，这有助于模型朝着正确的输出方向引导自己。
+但是正如“让我们逐步思考”的例子所说明的那样，GPT-3的表现不佳有时可以通过更好的提示来加以纠正，这有助于模型朝着正确的输出方向运行。
 
 ## 如何提高复杂任务的可靠性
 
-本文的其余部分将分享有关如何提高大型语言模型在复杂任务上的可靠性的技术。虽然其中一些技术是针对特定类型的问题的，但其中许多都是基于可以应用于各种任务的通用原则，例如：
+本文的其余部分将分享有关提高大语言模型在复杂任务上可靠性的技术。虽然其中一些技术是针对特定类型问题的，但其中许多都是基于可以应用于各种任务的通用原则，例如：
 
 - 提供更清晰的说明
 - 将复杂任务分解为简单的子任务
 - 结构化说明以使模型保持在任务上
-- 在回答之前提示模型进行解释
-- 要求对许多可能的答案进行解释，然后进行综合
+- 在回答之前对提示模型进行解释
+- 要求对许多可能的答案进行解释，然后进行总结
 - 生成许多输出，然后使用模型选择最佳输出
-- 对自定义模型进行微调以最大化性能
+- 对自定义模型进行微调实现性能最大化
 
 ## 将复杂任务分解为较简单的任务
 
-给模型更多时间和空间思考的一种方法是将任务分解为较简单的部分。
+给模型更多时间和空间来思考的一种方法是将任务分解为较简单的小任务。
 
-例如，考虑一个任务，我们向模型提出有关某些文本的多项选择题 - 在这种情况下，是一个谋杀游戏的Clue。当直接询问时，“text-davinci-002”无法将线索3和5联系在一起，答案不正确：
+例如，有个任务，我们向模型提出有关某些文本的多项选择题 - 在这种情况下，是一个谋杀游戏Clue。当直接提问时，“text-davinci-002”无法将线索3和5联系在一起，答案不正确：
 
-```text-davinci-002
-使用以下线索回答以下多项选择题。
+```
+使用以下线索回答多项选择题。
 
-线索:“。
-格式：仅返回翻译的内容，不包括原始文本。"1. Scarlett 小姐是休息室中唯一的人。
+线索:
+1. 斯嘉丽小姐是休息室中唯一的人。
 2. 拿着烟斗的人在厨房里。
-3. Mustard 上校是天文台中唯一的人。
-4. Plum 教授既不在图书馆也不在台球房。
+3. 芥末上校是天文台中唯一的人。
+4. 李子教授既不在图书馆也不在台球房。
 5. 拿着烛台的人在天文台里。
 
-问题：Mustard 上校是否在天文台里持烛台？
-(a) 是的；Mustard 上校在天文台里持烛台。
-(b) 不是；Mustard 上校不在天文台里持烛台。
-(c) 不确定；没有足够的信息来确定是否 Mustard 上校在天文台 with the candlestick。
+问题：芥末上校是否在天文台里持烛台？
+(a) 是的；芥末上校在天文台里持烛台。
+(b) 不是；芥末上校不在天文台里持烛台。
+(c) 不确定；没有足够的信息来确定芥末上校是否在天文台里持烛台。
 
 解答：
 ```
  
-```text-davinci-002
-(c) 不确定；没有足够的信息来确定是否 Mustard 上校在天文台 with the candlestick。
+```
+(c) 不确定；没有足够的信息来确定芥末上校是否在天文台里持烛台。
 ```
  
-虽然线索 3 和 5 表明 Mustard 上校是天文台中唯一的人且天文台中的人拿着烛台，但是这些信息并没有被结合成正确答案 (a) Yes。
+虽然线索 3 和 5 表明芥末上校是天文台中唯一的人且天文台中的人拿着烛台，但是这些信息并没有被结合成正确答案“ (a) 是的”。
 
 但是，我们可以将问题拆分成三个步骤：
  
-- 首先，逐个考虑线索并确定哪些是相关的。
+- 首先，逐一分析线索并确定哪些是相关的。
 - 其次，将相关的线索组合起来，推理出问题的答案。
 - 第三，给出最终答案：即 (a)、(b) 或 (c)。
 
-```text-davinci-002
-使用以下线索回答以下多项选择题，使用以下步骤：
-(1) 首先，逐个考虑线索并确定哪些是相关的。
+```
+使用以下线索回答多项选择题，使用以下步骤：
+(1) 首先，逐一分析线索并确定哪些是相关的。
 (2) 其次，将相关的线索组合起来，推理出问题的答案。
 (3) 最后，给出最终答案：即 (a)、(b) 或 (c)。
 
-线索：
-1. Scarlett 小姐是休息室中唯一的人。
+线索:
+1. 斯嘉丽小姐是休息室中唯一的人。
 2. 拿着烟斗的人在厨房里。
-3. Mustard 上校是天文台中唯一的人。
-4. Plum 教授既不在图书馆也不在台球房。
+3. 芥末上校是天文台中唯一的人。
+4. 李子教授既不在图书馆也不在台球房。
 5. 拿着烛台的人在天文台里。
-```问题：Colonel Mustard是否是拿着烛台在天文台里的？
-(a)是的；Colonel Mustard拿着烛台在天文台里
-(b)不是；Colonel Mustard不是拿着烛台在天文台里
-(c)未知；没有足够的信息来确定Colonel Mustard是否是拿着烛台在天文台里
+
+问题：芥末上校是否在天文台里持烛台？
+(a) 是的；芥末上校在天文台里持烛台。
+(b) 不是；芥末上校不在天文台里持烛台。
+(c) 不确定；没有足够的信息来确定芥末上校是否在天文台里持烛台。
  
 解答：
 (1) 首先，逐一检查每个线索，判断线索是否有潜在的相关性：
 ```
- 
-```text-davinci-002
-线索1：只有Miss Scarlett一个人在休息室。此线索不相关。
-线索2：拿着烟斗的人在厨房里。此线索不相关。
-线索3：只有Colonel Mustard一个人在天文台里。此线索相关。
-线索4：Professor Plum既不在图书馆也不在台球房里。此线索不相关。
-线索5：拿着烛台的人在天文台里。此线索相关。
- 
-(2) 其次，将相关的线索组合起来，推理出问题的答案：
-线索3和线索5都表明拿着烛台的人在天文台里。Colonel Mustard是天文台里唯一的人，因此Colonel Mustard就是拿着烛台的人。
- 
-(3) 第三步，写出最终答案：
-(a)是的；Colonel Mustard拿着烛台在天文台里
+
 ```
- 
-通过给模型更多的时间和空间来思考，并引导它沿着推理计划前进，它能够找出正确答案(a)是的。
+线索1：只有斯嘉丽小姐一个人在休息室。此线索不相关。
+线索2：拿着烟斗的人在厨房里。此线索不相关。
+线索3：只有芥末上校一个人在天文台里。此线索相关。
+线索4：李子教授既不在图书馆也不在台球房里。此线索不相关。
+线索5：拿着烛台的人在天文台里。此线索相关。
 
-将复杂的说明拆分成较小的子任务的另一个好处是可以帮助保持模型专注于每个子任务。
+(2) 其次，将相关的线索组合起来，推理出问题的答案：
+线索3和线索5都表明拿着烛台的人在天文台里。芥末上校是天文台里唯一的人，因此芥末上校就是拿着烛台的人。
 
-例如，如果我们要求`text-davinci-002`用原始语言总结文本，模型可能会回到英语：
+(3) 第三步，写出最终答案：
+(a)是的；芥末上校在天文台里持烛台。
+```
 
-```text-davinci-002
+通过给模型更多的时间和空间来思考，并引导它正确地完成推理，它能够找出正确答案“(a)是的”。
+
+将复杂的任务拆分成较小的子任务，还有另一个好处，可以帮助模型专注于每个子任务。
+
+例如，如果我们要求`text-davinci-002`用原始语言总结文本，模型可能会回到汉语：
+
+```
 使用文本的原始语言总结文本。摘要应该只有一句话。
 
 文本：
-""""。
-格式：仅返回翻译内容，不包括原始文本。La estadística es una ciencia que estudia la variabilidad, colección, organización, análisis, interpretación y presentación de los datos, así como el proceso aleatorio que los genera siguiendo las leyes de la probabilidad. Es una ciencia deductiva formal, con un conocimiento propio, dinámico y en continuo desarrollo obtenido a través del método científico formal. En ocasiones, las ciencias fácticas necesitan utilizar técnicas estadísticas durante su proceso de investigación factual con el fin de obtener nuevos conocimientos basados en la experimentación y en la observación. En estos casos, la aplicación de la estadística permite el análisis de datos provenientes de una muestra representativa, que busca explicar las correlaciones y dependencias de un fenómeno físico o natural, de ocurrencia en forma aleatoria o condicional.La estadística (la forma femenina del término alemán Statistik, derivado a su vez del italiano statista, "hombre de Estado") es una ciencia que estudia la variabilidad, colección, organización, análisis, interpretación, y presentación de los datos, así como el proceso aleatorio que los genera siguiendo las leyes de la probabilidad. La estadística es una ciencia formal deductiva, con un conocimiento propio, dinámico y en continuo desarrollo obtenido a través del método científico formal. En ocasiones, las ciencias fácticas necesitan utilizar técnicas estadísticas durante su proceso de investigación factual, con el fin de obtener nuevos conocimientos basados en la experimentación y en la observación. En estos casos, la aplicación de la estadística permite el análisis de datos provenientes de una muestra representativa, que busca explicar las correlaciones y dependencias de un fenómeno físico o natural, de ocurrencia en forma aleatoria o condicional.使用这个简单的技巧应用在MultiArith数学数据集上，作者发现`一步一步思考`将准确率提高了四倍，从18%提高到了79%！
+"""
+La estadística (la forma femenina del término alemán Statistik, derivado a su vez del italiano statista, "hombre de Estado")​ es una ciencia que estudia la variabilidad, colección, organización, análisis, interpretación, y presentación de los datos, así como el proceso aleatorio que los genera siguiendo las leyes de la probabilidad.​ La estadística es una ciencia formal deductiva, con un conocimiento propio, dinámico y en continuo desarrollo obtenido a través del método científico formal. En ocasiones, las ciencias fácticas necesitan utilizar técnicas estadísticas durante su proceso de investigación factual, con el fin de obtener nuevos conocimientos basados en la experimentación y en la observación. En estos casos, la aplicación de la estadística permite el análisis de datos provenientes de una muestra representativa, que busca explicar las correlaciones y dependencias de un fenómeno físico o natural, de ocurrencia en forma aleatoria o condicional.
+"""
+摘要：
 
-[![](images/zero-shot_reasoners_tab5.png)
-<br>来源：《大型语言模型是零次推理者》by Takeshi Kojima等人(2022)](https://arxiv.org/abs/2205.11916)
+```
+```
+该文本解释了统计学是一门研究数据的变异性、收集、组织、分析、解释和展示，以及生成它们的随机过程遵循概率法则的科学。
+```
 
-#### 影响
+然而，如果我们首先要求模型确定文本的语言，然后再对文本进行总结，这样做会更加可靠。
+
+```
+首先，确定文本的语言。
+然后，使用原始语言对文本进行总结。总结应该是一个句子。
+文本：
+"""
+La estadística (la forma femenina del término alemán Statistik, derivado a su vez del italiano statista, "hombre de Estado")​ es una ciencia que estudia la variabilidad, colección, organización, análisis, interpretación, y presentación de los datos, así como el proceso aleatorio que los genera siguiendo las leyes de la probabilidad.​ La estadística es una ciencia formal deductiva, con un conocimiento propio, dinámico y en continuo desarrollo obtenido a través del método científico formal. En ocasiones, las ciencias fácticas necesitan utilizar técnicas estadísticas durante su proceso de investigación factual, con el fin de obtener nuevos conocimientos basados en la experimentación y en la observación. En estos casos, la aplicación de la estadística permite el análisis de datos provenientes de una muestra representativa, que busca explicar las correlaciones y dependencias de un fenómeno físico o natural, de ocurrencia en forma aleatoria o condicional.
+"""
+语言：
+```
+
+```
+西班牙语。
+
+La estadística es una ciencia que estudia la variabilidad, colección, organización, análisis, interpretación, y presentación de los datos, así como el proceso aleatorio que los genera siguiendo las leyes de la probabilidad.
+```
+## 提示模型在回答前进行解释
+提高答案可靠性的另一种重要方法是提示模型逐步推理出答案，而不是立即跳转到最终答案。通过“细致思考”，模型更有可能得出正确答案。
+
+### Zero-shot方法
+[该方法由Takeshi Kojima等人于2022年发布](https://arxiv.org/abs/2205.11916)，提示模型逐步推理答案的最简单方法是在答案前加上“让我们逐步思考”。图2展示了一个示例：
+[![zero-shot reasoning example](images/zero-shot_reasoners_fig2.png)](https://arxiv.org/abs/2205.11916)
+来源：[ Large Language Models are Zero-Shot Reasoners by Takeshi Kojima et al. (2022).](https://arxiv.org/abs/2205.11916)
+
+####结果
+将这个简单的技巧应用在MultiArith数学数据集上，作者发现“让我们逐步思考”将准确率提高了四倍，从18%提高到了79%！
+
+![](images/zero-shot_reasoners_tab5.png)
+来源：[ Large Language Models are Zero-Shot Reasoners by Takeshi Kojima et al. (2022).](https://arxiv.org/abs/2205.11916)
+
+#### 影响（未修正）
 
 虽然`一步一步思考`技巧在解决数学问题上非常有效，但并不对所有任务都有效。作者发现，它最有帮助的是多步算术问题、符号推理问题、策略问题和其他推理问题。它并没有对简单的数学问题或常识问题有帮助，而且很可能对许多其他非推理任务也没有帮助。
 
